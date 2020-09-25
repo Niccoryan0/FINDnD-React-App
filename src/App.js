@@ -4,10 +4,24 @@ import './App.css';
 
 function App() {
   var newobj = {
-    username = "Espresso401",
-    password = "@Test123!"
+    username : "Espresso401",
+    password : "@Test123!"
   }
-  
+  fetch("https://localhost:44335/api/Account/Login", {
+    method: "post",
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': "*"
+    },
+    body: JSON.stringify(newobj)
+    }
+  ).then(res => res.json())
+   .then(result => {
+     console.log(result);
+     if(result.Status === 'Success') localStorage.setItem('token', result.jwt)
+   })
+
 
 
   return (
