@@ -18,8 +18,7 @@ function App() {
     }
   ).then(res => res.json())
    .then(result => {
-     console.log(result);
-     if(result.Status === 'Success') localStorage.setItem('token', result.jwt)
+     if(result.jwt) localStorage.setItem('token', result.jwt)
    })
 
 
