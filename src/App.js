@@ -14,7 +14,7 @@ export default class App extends React.Component {
     };
   }
 
-  fetchApiStuff(){
+  async fetchApiStuff(){
     var signIn = {
       username : "Espresso401",
       password : "@Test123!"
@@ -30,45 +30,49 @@ export default class App extends React.Component {
       }
     ).then(res => res.json())
     .then(result => {
-      console.log(result);
+      //console.log(result);
       if(result.jwt) {
         localStorage.setItem('token', result.jwt);
         this.setState((state) => {
           return {userId : result.userid}
         });
       }
+      this.fetchPlayers()
     })
   }
 
   fetchPlayers(){
-    console.log("hi");
+    console.log("Bearer " + localStorage.getItem('token'));
     fetch("https://espresso401api.azurewebsites.net/api/DungeonMasters/UserId/" + this.state.userId, {
       method: "GET",
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': "*"
+        'Access-Control-Allow-Origin': "*",
+        'Authorization': "Bearer " + localStorage.getItem('token')
       },
-      Authorization: "Bearer" + localStorage.getItem('token')
+      //Authorization: "Bearer " + localStorage.getItem('token')
       }
     ).then(res => {
-      console.log(res);
-      res.json()
+      return res.json()
     })
     .then(result => {
+      console.log(result);
       if(result){
         console.log(result);
         this.setState((state) => {
-          return {players : result.Party.PlayersInParty}
+          return {players : result.party.playersInParty}
         })
-        //this.state.players = result.Party.PlayersInParty;
       }
     });
   }
+    componentDidMount() {
+      this.fetchApiStuff();
+      //this.fetchPlayers();
+    };
 
 
    render(){
-
      return (
        <div className="App">
          {/* <header className="App-header">

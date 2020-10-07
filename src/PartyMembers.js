@@ -17,7 +17,8 @@ export default class PartyMember extends React.Component {
         color: "red",
       }
       const imgstyles = {
-        height: "300px",
+        height: "200px",
+        maxWidth:"200px",
         borderRadius: "50%"
       }
       return (
@@ -30,17 +31,19 @@ export default class PartyMember extends React.Component {
         //   <p>{props.UserEmail}</p>
         // </div>
         <CardDeck>
-          {this.state.players.map(function(player){
+          {this.props.players.map(function(player){
+            console.log(player);
+
             return (<Card style={{ width: '18rem' }}>
-              <Card.Img variant="top" src="{player.ImageUrl}" />
+              <Card.Img variant="top" src={player.imageUrl} style={imgstyles} />
               <Card.Body>
-                <Card.Title>{player.CharacterName}</Card.Title>
+                <Card.Title>{player.characterName}</Card.Title>
               </Card.Body>
               <ListGroup className="list-group-flush">
-                <ListGroupItem>Class: {player.Class}</ListGroupItem>
-                <ListGroupItem>Race: {player.Race}</ListGroupItem>
-                <ListGroupItem>Experience Level: {player.ExperienceLevel}</ListGroupItem>
-                <ListGroupItem>Email: {player.UserEmail}</ListGroupItem>
+                <ListGroupItem>Class: {player.class}</ListGroupItem>
+                <ListGroupItem>Race: {player.race}</ListGroupItem>
+                <ListGroupItem>Experience Level: {player.experienceLevel}</ListGroupItem>
+                <ListGroupItem>Email: {player.userEmail}</ListGroupItem>
               </ListGroup>
             </Card>)
           })}
