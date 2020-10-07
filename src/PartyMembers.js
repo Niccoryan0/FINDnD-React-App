@@ -1,8 +1,10 @@
 import React from "react";
 import Card from 'react-bootstrap/Card';
 import CardDeck from 'react-bootstrap/CardDeck';
+import ListGroup from 'react-bootstrap/ListGroup';
+import ListGroupItem from 'react-bootstrap/ListGroupItem';
 
-class PartyMember extends React.Component {
+export default class PartyMember extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -29,7 +31,7 @@ class PartyMember extends React.Component {
         // </div>
         <CardDeck>
           {this.state.players.map(function(player){
-            <Card style={{ width: '18rem' }}>
+            return (<Card style={{ width: '18rem' }}>
               <Card.Img variant="top" src="{player.ImageUrl}" />
               <Card.Body>
                 <Card.Title>{player.CharacterName}</Card.Title>
@@ -40,12 +42,9 @@ class PartyMember extends React.Component {
                 <ListGroupItem>Experience Level: {player.ExperienceLevel}</ListGroupItem>
                 <ListGroupItem>Email: {player.UserEmail}</ListGroupItem>
               </ListGroup>
-            </Card>
+            </Card>)
           })}
         </CardDeck>
       )
   }
 }
-
-
-export default PartyMember;

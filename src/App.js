@@ -3,13 +3,14 @@ import logo from './logo.svg';
 import './App.css';
 import PartyMembers from './PartyMembers'
 
-class App extends React.Component {
+export default class App extends React.Component {
   constructor(props){
     super(props);
     this.state = {
       error: null,
       isLoaded: false,
-      players: []
+      players: [],
+      userId: ""
     };
   }
 
@@ -18,8 +19,8 @@ class App extends React.Component {
       username : "Espresso401",
       password : "@Test123!"
     }
-    fetch("https://localhost:44335/api/Account/Login", {
-      method: "post",
+    fetch("https://espresso401api.azurewebsites.net/api/Account/Login", {
+      method: "POST",
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
@@ -29,23 +30,50 @@ class App extends React.Component {
       }
     ).then(res => res.json())
     .then(result => {
+      console.log(result);
       if(result.jwt) {
         localStorage.setItem('token', result.jwt);
+        this.setState((state) => {
+          return {userId : result.userid}
+        });
       }
     })
   }
 
   fetchPlayers(){
-
+    console.log("hi");
+    fetch("https://espresso401api.azurewebsites.net/api/DungeonMasters/UserId/" + this.state.userId, {
+      method: "GET",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': "*"
+      },
+      Authorization: "Bearer" + localStorage.getItem('token')
+      }
+    ).then(res => {
+      console.log(res);
+      res.json()
+    })
+    .then(result => {
+      if(result){
+        console.log(result);
+        this.setState((state) => {
+          return {players : result.Party.PlayersInParty}
+        })
+        //this.state.players = result.Party.PlayersInParty;
+      }
+    });
   }
 
 
    render(){
+
      return (
        <div className="App">
-         <header className="App-header">
-           <img src={logo} className="App-logo" alt="logo" />
-           {/* <p>
+         {/* <header className="App-header">
+           <img src={logo} className="App-logo" alt="logo" /> 
+           <p>
              Edit <code>src/App.js</code> and save to reload.
            </p>
            <a
@@ -55,14 +83,12 @@ class App extends React.Component {
              rel="noopener noreferrer"
            >
              Learn React
-           </a> */}
-         </header>
+           </a> 
+         </header> */}
          <main>
-           <PartyMembers players=></PartyMembers>
+           <PartyMembers players={this.state.players}></PartyMembers>
          </main>
        </div>
      );
    }
 }
-
-export default App;
