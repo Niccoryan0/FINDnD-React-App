@@ -18,7 +18,7 @@ export default class PartyMember extends React.Component {
       }
       const imgstyles = {
         height: "200px",
-        maxWidth:"200px",
+        maxWidth:"16rem",
         borderRadius: "50%"
       }
       return (
@@ -30,11 +30,9 @@ export default class PartyMember extends React.Component {
         //   <p>{props.ExperienceLevel}</p>
         //   <p>{props.UserEmail}</p>
         // </div>
-        <CardDeck>
+        <CardDeck style={{display: 'flex', flexDirection: 'row', flexWrap: "wrap", padding: "5px"}} >
           {this.props.players.map(function(player){
-            console.log(player);
-
-            return (<Card style={{ width: '18rem' }}>
+            return (<Card border="dark" bg="primary" style={{ width: '18rem', flex: 1, margin:"5px 5px 40px 5px" }}>
               <Card.Img variant="top" src={player.imageUrl} style={imgstyles} />
               <Card.Body>
                 <Card.Title>{player.characterName}</Card.Title>
