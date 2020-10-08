@@ -13,35 +13,43 @@ export default class PartyMember extends React.Component {
   }
 
   render(){
-      const pstyles = {
-        color: "red",
-      }
-      const imgstyles = {
+      const imgStyles = {
         height: "200px",
         maxWidth:"16rem",
-        borderRadius: "50%"
+        borderRadius: "50%",
+        margin: "15px auto"
+      }
+      const cardDeckStyles = {
+        display: 'flex', 
+        flexDirection: 'row',
+        flexWrap: "wrap", 
+        padding: "5px", 
+        margin: "0px 40px 0 40px", 
+        justifyContent: "center"
+      }
+      const cardStyles = {
+        width: '300px', 
+        margin:"5px 5px 40px 5px", 
+        flex: "none", 
+        backgroundColor: "#e3e3e3"
+      }
+      const listItemStyles = {
+        backgroundColor: "#e3e3e3", 
+        color: "#9D0A0E"
       }
       return (
-        // <div>
-        //   <img class="member-image" src="{props.ImageUrl}"></img>
-        //   <h2>{props.CharacterName}</h2>
-        //   <p>{props.Class}</p>
-        //   <p>{props.Race}</p>
-        //   <p>{props.ExperienceLevel}</p>
-        //   <p>{props.UserEmail}</p>
-        // </div>
-        <CardDeck style={{display: 'flex', flexDirection: 'row', flexWrap: "wrap", padding: "5px"}} >
+        <CardDeck style={cardDeckStyles} >
           {this.props.players.map(function(player){
-            return (<Card border="dark" bg="primary" style={{ width: '18rem', flex: 1, margin:"5px 5px 40px 5px" }}>
-              <Card.Img variant="top" src={player.imageUrl} style={imgstyles} />
+            return (<Card border="dark" style={cardStyles} key={player.userEmail + player.characterName}>
+              <Card.Img variant="top" src={player.imageUrl} style={imgStyles} />
               <Card.Body>
-                <Card.Title>{player.characterName}</Card.Title>
+                <Card.Title style={{color: "#9D0A0E"}}>{player.characterName}</Card.Title>
               </Card.Body>
-              <ListGroup className="list-group-flush">
-                <ListGroupItem>Class: {player.class}</ListGroupItem>
-                <ListGroupItem>Race: {player.race}</ListGroupItem>
-                <ListGroupItem>Experience Level: {player.experienceLevel}</ListGroupItem>
-                <ListGroupItem>Email: {player.userEmail}</ListGroupItem>
+              <ListGroup className="list-group-flush" style={{ backgroundColor: "#e3e3e3" }}>
+                <ListGroupItem style={listItemStyles}>Class: {player.class}</ListGroupItem>
+                <ListGroupItem style={listItemStyles}>Race: {player.race}</ListGroupItem>
+                <ListGroupItem style={listItemStyles}>Experience Level: {player.experienceLevel}</ListGroupItem>
+                <ListGroupItem style={listItemStyles}>{player.userEmail || "generic@gmail.com"}</ListGroupItem>
               </ListGroup>
             </Card>)
           })}
